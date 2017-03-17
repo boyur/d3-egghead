@@ -1,11 +1,18 @@
-const data = [5, 10, 15, 20, 25];
+(function () {
+  var body = document.querySelector('body');
+  body.style['fontFamily'] = 'monospace';
+  body.style['fontSize'] = '2em';
+  console.log = function (x) { body.innerText += x + '\n'; };
+}());
 
-d3.select('body').selectAll('div')
-  .data(data)
-  .enter()
-  .append('div')
-  .attr('class', 'bar')
-  .style('height', function (d) {
-    return d * 5 + 'px'
-  });
 
+var linearScale = d3.scaleLinear()
+  .domain([0, 100])
+  .range([0, 600])
+  .clamp(true);
+
+console.log(linearScale(-20));
+console.log(linearScale(50));
+console.log(linearScale(105));
+
+console.log(linearScale.invert(300));
