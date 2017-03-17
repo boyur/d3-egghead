@@ -1,3 +1,4 @@
+// make console.log write to the page for better in-browser experience
 (function () {
   var body = document.querySelector('body');
   body.style['fontFamily'] = 'monospace';
@@ -6,13 +7,12 @@
 }());
 
 
-var linearScale = d3.scaleLinear()
-  .domain([0, 100])
-  .range([0, 600])
-  .clamp(true);
+var timeScale = d3.scaleTime()
+  .domain([new Date(2016, 0, 1), new Date()])
+  .range([0, 100]);
 
-console.log(linearScale(-20));
-console.log(linearScale(50));
-console.log(linearScale(105));
+console.log(timeScale(new Date(2016, 0, 15)));
+console.log(timeScale(new Date(2016, 3, 15)));
+console.log(timeScale(new Date()));
 
-console.log(linearScale.invert(300));
+console.log(timeScale.invert(50));
