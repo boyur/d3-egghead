@@ -1,25 +1,28 @@
-// make console.log write to the page for better in-browser experience
-(function () {
-  var body = document.querySelector('body');
-  body.style['fontFamily'] = 'monospace';
-  body.style['fontSize'] = '2em';
-  console.log = function (x) { body.innerText += x + '\n'; };
-}());
+var scores = [
+  { name: 'Alice', score: 96 },
+  { name: 'Billy', score: 83 },
+  { name: 'Cindy', score: 91 },
+  { name: 'David', score: 96 },
+  { name: 'Emily', score: 88 }
+];
 
+var update = d3.select('.chart')
+  .selectAll('div')
+  .data(scores, function (d) {
+    return d ? d.name : this.innerText;
+  })
+  .style('color', 'blue');
 
-d3.json('data/data.json', function (data) {
-  var extent = d3.extent(data, function (d) {
-    return d.age;
-  });
-  console.log(extent);
+var enter = update.enter()
+  .append('div')
+  .text(function (d) {
+    return d.name;
+  })
+  .style('color', 'green');
 
-  var scale = d3.scaleLinear()
-    .domain(extent)
-    .range([0, 600]);
-  console.log(scale(37));
+update.exit().remove();
 
-  var ages = d3.set(data, function (d) {
-    return d.age;
-  });
-  console.log(ages.values());
-});
+update.merge(enter)
+  .style('width', d => d.score + 'px')
+  .style('background', 'lightgreen')
+  .style('border', '1px solid black')
